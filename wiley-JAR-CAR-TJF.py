@@ -71,7 +71,7 @@ for i, url in enumerate(urls):
 
 # 获取当前日期
 current_date = datetime.now().strftime('%Y-%m-%d')
-csv_file = rf'F:\论文\230-华中科技大学\文献\文献_{current_date}.csv'
+csv_file = rf'F:\论文\230-华中科技大学\文献\文献_JAR_CAR_TJF{current_date}.csv'
 
 with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
     fieldnames = ['Title', 'Authors', 'Publication Date', 'Journallink', 'Journal']
@@ -81,32 +81,32 @@ with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
 
 print(f'Data has been successfully written to {csv_file}')
 
-# 创建文件夹用于存储下载的 PDF
-download_folder = rf'F:\论文\230-华中科技大学\文献\wiley_JAR_CAR_TJF_{current_date}'
-os.makedirs(download_folder, exist_ok=True)
+# # 创建文件夹用于存储下载的 PDF
+# download_folder = rf'F:\论文\230-华中科技大学\文献\wiley_JAR_CAR_TJF_{current_date}'
+# os.makedirs(download_folder, exist_ok=True)
 
-for article in all_data:
-    title = article['Title']
-    journal = article['Journal']
-    journal_link = article['Journallink']
-    file_path = os.path.join(download_folder, f"{title}.pdf")  # 构建保存文件的完整路径
+# for article in all_data:
+#     title = article['Title']
+#     journal = article['Journal']
+#     journal_link = article['Journallink']
+#     file_path = os.path.join(download_folder, f"{title}.pdf")  # 构建保存文件的完整路径
 
-    # 假设 journal_link 是一个包含 PDF 阅读器和下载按钮的页面链接
-    response = requests.get(journal_link)
-    soup = BeautifulSoup(response.content, 'html.parser')
+#     # 假设 journal_link 是一个包含 PDF 阅读器和下载按钮的页面链接
+#     response = requests.get(journal_link)
+#     soup = BeautifulSoup(response.content, 'html.parser')
 
-    # 找到包含 PDF 下载链接的元素，通常可以通过查找包含特定文本的<a>标签来实现
-    download_elements = soup.find_all('a', href=True)
+#     # 找到包含 PDF 下载链接的元素，通常可以通过查找包含特定文本的<a>标签来实现
+#     download_elements = soup.find_all('a', href=True)
 
-    for element in download_elements:
-        if "/doi/pdfdirect/" in element['href']:
-            pdf_link = "https://onlinelibrary.wiley.com" + element['href']  # 构建完整的下载链接
+#     for element in download_elements:
+#         if "/doi/pdfdirect/" in element['href']:
+#             pdf_link = "https://onlinelibrary.wiley.com" + element['href']  # 构建完整的下载链接
 
-            # 下载 PDF
-            response = requests.get(pdf_link)
-            if response.status_code == 200:
-                with open(file_path, 'wb') as file:  # 将文件保存为特定的文件名
-                    file.write(response.content)
-                print(f'PDF file "{title}" downloaded successfully')
-            else:
-                print(f'Failed to download PDF file "{title}"')
+#             # 下载 PDF
+#             response = requests.get(pdf_link)
+#             if response.status_code == 200:
+#                 with open(file_path, 'wb') as file:  # 将文件保存为特定的文件名
+#                     file.write(response.content)
+#                 print(f'PDF file "{title}" downloaded successfully')
+#             else:
+#                 print(f'Failed to download PDF file "{title}"')

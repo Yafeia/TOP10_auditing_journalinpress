@@ -17,7 +17,7 @@ chrome_options.add_argument('--ignore-certificate-errors')  # 忽略证书错误
 
 # 使用Selenium打开网页
 driver = webdriver.Chrome(options=chrome_options)
-driver.get('https://pubsonline.informs.org/toc/mnsc/0/0')
+driver.get('https://pubsonline.informs.org/journal/mnsc')
 time.sleep(5)
 
 # 或者使用显式等待
