@@ -82,7 +82,7 @@ with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
 print(f'Data has been successfully written to {csv_file}')
 
 # 创建文件夹用于存储下载的 PDF
-download_folder = rf'F:\论文\230-华中科技大学\文献\wiley_{current_date}'
+download_folder = rf'F:\论文\230-华中科技大学\文献\wiley_JAR_CAR_TJF_{current_date}'
 os.makedirs(download_folder, exist_ok=True)
 
 for article in all_data:

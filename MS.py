@@ -17,48 +17,50 @@ chrome_options.add_argument('--ignore-certificate-errors')  # 忽略证书错误
 
 # 使用Selenium打开网页
 driver = webdriver.Chrome(options=chrome_options)
-driver.get('https://www.sciencedirect.com/journal/journal-of-financial-economics/vol/articles-in-press')
+driver.get('https://pubsonline.informs.org/toc/mnsc/0/0')
 time.sleep(5)
 
 # 或者使用显式等待
 wait = WebDriverWait(driver, 5)
 # wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'issue-item')))
 
-article_list = driver.find_element(By.CLASS_NAME, 'js-article-list.article-list-items')
-article_items = article_list.find_elements(By.TAG_NAME, 'li')
+article_list = driver.find_element(By.CLASS_NAME, 'col-lg-9.col-md-9.col-sm-8.col-xs-12')
+article_items = article_list.find_elements(By.CLASS_NAME, 'issue-item')
 data = []
 titles_set = set()  # 存储已抓取的标题
-
 for item in article_items:
-    title_elements = item.find_elements(By.CLASS_NAME, 'js-article-title')
+    title_elements = item.find_elements(By.CLASS_NAME, 'issue-item__title')
 
     for title_element in title_elements:
         title = title_element.text.strip()
 
         if title:  # 确保标题不为空
-            authors_list = item.find_elements(By.CLASS_NAME, 'text-s u-clr-grey8 js-article__item__authors')
-            authors = [author.text.strip() for author in authors_list]
-            authors_str = '; '.join(authors)
+            authors_list = item.find_elements(By.CLASS_NAME, 'text-s.u-clr-grey8.js-article__item__authors')
+            authors = [author.text.strip() for author in authors_list]  # 提取所有作者信息
+            authors_str = '; '.join(authors)  # 将多个作者信息合并为字符串
 
             try:
-                pub_date_element = item.find_element(By.CLASS_NAME, 'u-clr-grey8.u-text-italic.text-s.js-article-item-aip-date')
+                pub_date_element = item.find_element(By.CLASS_NAME, 'entryAuthor.linkable.hlFld-ContribAuthor')
                 pub_date = pub_date_element.text.strip()
             except NoSuchElementException:
                 pub_date = "unfound"
-            journal_link_element = item.find_element(By.CLASS_NAME, 'anchor.pdf-download.u-margin-l-right.text-s.anchor-default.anchor-icon-left')
-            journal_link = journal_link_element.get_attribute('href')
-            journal_name="SC"
+            
+            journal_link_element = item.find_element(By.XPATH, ".//a[@title='PDF']")  # 定位包含 PDF 链接的元素
+            journal_link = journal_link_element.get_attribute("href")
+
+            journal_name = "MS"
             data.append({
                 'Title': title,
                 'Authors': authors_str if authors_str else None,
                 'Publication Date': pub_date,
                 'Journallink': journal_link,
-                'Journal': journal_name ,
+                'Journal': journal_name,
             })
+
 
 # 获取当前日期
 current_date = datetime.now().strftime('%Y-%m-%d')
-csv_file = rf'F:\论文\230-华中科技大学\文献\文献_JFE_{current_date}.csv'
+csv_file = rf'F:\论文\230-华中科技大学\文献\文献_MS_{current_date}.csv'
 
 with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
     fieldnames = ['Title', 'Authors', 'Publication Date', 'Journallink', 'Journal']

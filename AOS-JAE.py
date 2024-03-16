@@ -77,21 +77,15 @@ journal_names = [
 
 all_data = []
 
-# 创建存放PDF文件的文件夹
-current_date = datetime.now().strftime('%Y-%m-%d')
-folder_name = f'AOS-JAE_{current_date}'
-folder_path = os.path.join(os.getcwd(), folder_name)
-os.makedirs(folder_path, exist_ok=True)
-
-for i, url in enumerate(urls):
-    data = scrape_articles(url, journal_names[i])
-    all_data.extend(data)
-
-    for article in data:
-        download_pdf(article['Journallink'], folder_path, article['Filename'])
+# # 创建存放PDF文件的文件夹
+# current_date = datetime.now().strftime('%Y-%m-%d')
+# folder_name = f'AOS-JAE_{current_date}'
+# folder_path = os.path.join(os.getcwd(), folder_name)
+# os.makedirs(folder_path, exist_ok=True)
 
 # 写入CSV文件
-csv_file = rf'F:\论文\230-华中科技大学\文献\文献_{current_date}.csv'
+current_date = datetime.now().strftime('%Y-%m-%d')
+csv_file = rf'F:\论文\230-华中科技大学\文献\文献_AOS_JAE{current_date}.csv'
 
 with open(csv_file, mode='a', newline='', encoding='utf-8') as csvfile:
     fieldnames = ['Title', 'Authors', 'Publication Date', 'Journallink', 'Journal', 'Filename']
@@ -101,4 +95,3 @@ with open(csv_file, mode='a', newline='', encoding='utf-8') as csvfile:
     writer.writerows(all_data)
 
 print(f'Data has been successfully written to {csv_file}')
-git add .

@@ -43,7 +43,7 @@ for item in article_items:
 
 # 获取当前日期
 current_date = datetime.now().strftime("%Y-%m-%d")
-csv_file = rf'F:\论文\230-华中科技大学\文献\文献_{current_date}.csv'
+csv_file = rf'F:\论文\230-华中科技大学\文献\文献_RAS_{current_date}.csv'
 
 # 写入CSV文件
 with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
