@@ -39,8 +39,8 @@ for item in article_items:
     journal_link ="no pdf link found"
     journal_name = "Review of Accounting Studies"
 
-    data.append({'title': title,
-                 'authors': authors,
+    data.append({'Title': title,
+                 'Authors': authors,
                  'Publication Date': pub_date,
                  'Journallink': journal_link,
                  'Journal': journal_name,
