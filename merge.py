@@ -12,7 +12,7 @@ source_csv_files = [
     f'文献_TAR_{current_date}.csv',
 ]
 
-merged_csv_file = 'TOP10.csv'
+merged_csv_file = 'TOP10_{current_date}.csv'
 
 # 创建目标 CSV 文件
 with open(merged_csv_file, mode='w', newline='', encoding='utf-8') as merged_file:

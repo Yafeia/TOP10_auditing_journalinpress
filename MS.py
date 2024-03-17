@@ -62,8 +62,13 @@ for item in article_items:
 current_date = datetime.now().strftime('%Y-%m-%d')
 csv_file = rf'F:\论文\230-华中科技大学\文献\文献_MS_{current_date}.csv'
 
-with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['Title', 'Authors', 'Publication Date', 'Journallink', 'Journal']
+with open(csv_file, mode='w', newline='', encoding='utf-8-sig') as csvfile:
+    fieldnames = ['Title', 
+                  'Authors',
+                  'Publication Date', 
+                  'Journallink',
+                  'Journal',
+                   ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(data)

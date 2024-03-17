@@ -23,6 +23,7 @@ for item in article_items:
     authors = item.find_all("span", class_="wi-fullname brand-fg")
     author_names = ";".join([author.text.strip() for author in authors])
     pub_date = item.find("span", class_="sri-date al-pub-date").text.strip()
+    journal_link ="no pdf link found"
     journal_elem = item.find("div", class_="ww-citation-primary")
     journal_name = journal_elem.find("em").text if journal_elem.find("em") else "N/A"
     data.append({'title': title, 'authors': author_names, 'Publication Date': pub_date, 'Journal': journal_name})
@@ -31,8 +32,13 @@ for item in article_items:
 current_date = datetime.now().strftime("%Y-%m-%d")
 csv_file = rf'F:\论文\230-华中科技大学\文献\文献_TAR_{current_date}.csv'
 
-with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['title', 'authors', 'Publication Date', 'Journal']
+with open(csv_file, mode='w', newline='', encoding='utf-8-sig') as csvfile:
+    fieldnames = ['title', 
+                  'authors',
+                  'Publication Date',
+                  'Journallink',
+                  'Journal',
+                 ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     writer.writeheader()

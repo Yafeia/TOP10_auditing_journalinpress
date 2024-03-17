@@ -73,7 +73,7 @@ for i, url in enumerate(urls):
 current_date = datetime.now().strftime('%Y-%m-%d')
 csv_file = rf'F:\论文\230-华中科技大学\文献\文献_JAR_CAR_TJF{current_date}.csv'
 
-with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
+with open(csv_file, mode='w', newline='', encoding='utf-8-sig') as csvfile:
     fieldnames = ['Title', 'Authors', 'Publication Date', 'Journallink', 'Journal']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()

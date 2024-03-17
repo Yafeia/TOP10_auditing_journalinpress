@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+from selenium.webdriver.common.by import By
 from datetime import datetime
 
 # 发送网络请求获取页面内容
@@ -33,11 +34,15 @@ for item in article_items:
         pub_date = pub_date_item.text.strip()
         pub_dates.append(pub_date)
     # pub_date = item.find("span", class_="c-meta__item")
+    # journal_link_element = item.find_element(By.XPATH, ".//a[@title='PDF']")  # 定位包含 PDF 链接的元素
+    # journal_link = journal_link_element.get_attribute("href")
+    journal_link ="no pdf link found"
     journal_name = "Review of Accounting Studies"
 
     data.append({'title': title,
                  'authors': authors,
                  'Publication Date': pub_date,
+                 'Journallink': journal_link,
                  'Journal': journal_name,
                  })
 
@@ -46,11 +51,13 @@ current_date = datetime.now().strftime("%Y-%m-%d")
 csv_file = rf'F:\论文\230-华中科技大学\文献\文献_RAS_{current_date}.csv'
 
 # 写入CSV文件
-with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['title', 
-                 'authors', 
-                 'Publication Date', 
-                 'Journal',]
+with open(csv_file, mode='w', newline='', encoding='utf-8-sig') as csvfile:
+    fieldnames =  ['Title',
+                 'Authors',
+                 'Publication Date',
+                 'Journallink',
+                 'Journal',
+                 ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     writer.writeheader()

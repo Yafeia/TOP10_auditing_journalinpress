@@ -36,7 +36,7 @@ for item in article_items:
         title = title_element.text.strip()
 
         if title:  # 确保标题不为空
-            authors_list = item.find_elements(By.CLASS_NAME, 'text-s u-clr-grey8 js-article__item__authors')
+            authors_list = item.find_elements(By.CLASS_NAME, 'text-s.u-clr-grey8.js-article__item__authors')
             authors = [author.text.strip() for author in authors_list]
             authors_str = '; '.join(authors)
 
@@ -47,7 +47,7 @@ for item in article_items:
                 pub_date = "unfound"
             journal_link_element = item.find_element(By.CLASS_NAME, 'anchor.pdf-download.u-margin-l-right.text-s.anchor-default.anchor-icon-left')
             journal_link = journal_link_element.get_attribute('href')
-            journal_name="SC"
+            journal_name="JFE"
             data.append({
                 'Title': title,
                 'Authors': authors_str if authors_str else None,
@@ -60,8 +60,13 @@ for item in article_items:
 current_date = datetime.now().strftime('%Y-%m-%d')
 csv_file = rf'F:\论文\230-华中科技大学\文献\文献_JFE_{current_date}.csv'
 
-with open(csv_file, mode='w', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['Title', 'Authors', 'Publication Date', 'Journallink', 'Journal']
+with open(csv_file, mode='w', newline='', encoding='utf-8-sig') as csvfile:
+    fieldnames = ['Title', 
+                  'Authors',
+                  'Publication Date',
+                  'Journallink',
+                  'Journal',
+                 ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(data)

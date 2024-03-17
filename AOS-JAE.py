@@ -1,4 +1,4 @@
-import os
+
 import time
 import csv
 from datetime import datetime
@@ -37,12 +37,15 @@ def scrape_articles(url, journal_name):
                     pub_date = pub_date_element.text.strip()
                 except NoSuchElementException:
                     pub_date = "unfound"
-                
+                journal_link_element = item.find_element(By.XPATH,'//*[@id="article-list"]/form/div/div[2]/ol/li[1]/dl/dd[3]/a')  # 定位包含 PDF 链接的元素
+                journal_link = journal_link_element.get_attribute("href")
+               
                 data.append({
                     'Title': title,
                     'Authors': authors_str if authors_str else None,
                     'Publication Date': pub_date,
-                    'Journal': journal_name
+                    'Journallink': journal_link,
+                    'Journal': journal_name,
                 })
 
     driver.quit()
@@ -70,11 +73,17 @@ for url, journal_name in zip(urls, journal_names):
 current_date = datetime.now().strftime('%Y-%m-%d')
 csv_file = rf'F:\论文\230-华中科技大学\文献\文献_AOS_JAE_{current_date}.csv'
 
-with open(csv_file, mode='a', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['Title', 'Authors', 'Publication Date', 'Journal']
+with open(csv_file, mode='a', newline='', encoding='utf-8-sig') as csvfile:
+    fieldnames = ['Title', 
+                 'Authors', 
+                 'Publication Date',
+                 'Journallink',
+                 'Journal',
+                 ]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     if csvfile.tell() == 0:  # 如果文件为空，则写入表头
         writer.writeheader()
     writer.writerows(all_data)
 
 print(f'Data has been successfully written to {csv_file}')
+
