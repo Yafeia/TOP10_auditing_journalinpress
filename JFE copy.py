@@ -1,11 +1,15 @@
 import time
 import csv
+import requests
+import io
+import os
 
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 headers = {
@@ -68,45 +72,44 @@ for item in article_items:
                 'Journal': journal_name ,
             })
 
-            # try:
+            try:
                 # 获取文章链接
-                # journal_link_element = item.find_element(By.CLASS_NAME, 'anchor.pdf-download.u-margin-l-right.text-s.anchor-default.anchor-icon-left')
-                # journal_link = journal_link_element.get_attribute('href')
-                # journal_name="JFE"
-                # data.append({
-                #     'Title': title,
-                #     'Authors': authors_str if authors_str else None,
-                #     'Publication Date': pub_date,
-                #     'Journallink': journal_link,
-                #     'Journal': journal_name,
-                # })
+                journal_link_element = item.find_element(By.XPATH, '//*[@id="article-list"]/form/div/div[2]/ol/li[1]/dl/dd[3]/a/span')
+                journal_link = journal_link_element.get_attribute('href')
+                journal_name="JFE"
+                data.append({
+                    'Title': title,
+                    'Authors': authors_str if authors_str else None,
+                    'Publication Date': pub_date,
+                    'Journallink': journal_link,
+                    'Journal': journal_name,
+                })
+                # 下载PDF文件
+                file_name = f"{title}.pdf"  # 根据文章标题构造文件名
+                folder_name = f'{journal_name}_{current_date}'
+                folder_path = os.path.join(r'F:\论文\230-华中科技大学\文献', folder_name)
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path)
 
-            #     # 下载PDF文件
-            #     file_name = f"{title}.pdf"  # 根据文章标题构造文件名
-            #     folder_name = f'{journal_name}_{current_date}'
-            #     folder_path = os.path.join(r'F:\论文\230-华中科技大学\文献', folder_name)
-            #     if not os.path.exists(folder_path):
-            #         os.makedirs(folder_path)
+                file_path = os.path.join(folder_path, file_name)
 
-            #     file_path = os.path.join(folder_path, file_name)
+                try:  
+                    # 发送GET请求  
+                    response = requests.get(journal_link)  
 
-            #     try:  
-            #         # 发送GET请求  
-            #         response = requests.get(journal_link)  
-
-            #         # 将响应内容写入到文件中  
-            #         with open(file_path, 'wb') as file:  
-            #             file.write(response.content)
-            #         print(f'成功下载并保存文件: {file_name}')
+                    # 将响应内容写入到文件中  
+                    with open(file_path, 'wb') as file:  
+                        file.write(response.content)
+                    print(f'成功下载并保存文件: {file_name}')
                     
-            #     except requests.exceptions.RequestException as e:  
-            #         print(f"请求发生错误: {e}")  
+                except requests.exceptions.RequestException as e:  
+                    print(f"请求发生错误: {e}")  
                 
-            #     except IOError as e:  
-            #         print(f"无法写入文件: {e}")
+                except IOError as e:  
+                    print(f"无法写入文件: {e}")
                 
-            # except NoSuchElementException:
-            #     print("未找到文章链接")
+            except NoSuchElementException:
+                print("未找到文章链接")
 
 # 获取当前日期
 

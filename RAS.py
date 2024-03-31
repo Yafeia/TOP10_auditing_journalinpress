@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import time
 from selenium.webdriver.common.by import By
 from datetime import datetime
 

@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+import os
 
 current_date = datetime.now().strftime('%Y-%m-%d')
 source_csv_files = [
@@ -66,5 +67,8 @@ with open(merged_csv_file, mode='w', newline='', encoding='utf-8-sig') as merged
                         pass  # 处理索引超出范围的情况
                     
                     writer.writerow(row)
+        
+        # 合并后删除源 CSV 文件
+        os.remove(source_csv_file)
 
 print(f'Merged data with standardized Publication Date has been successfully written to {merged_csv_file}')

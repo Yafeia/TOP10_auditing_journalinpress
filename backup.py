@@ -1,12 +1,7 @@
 import scrapy
-import time
 from scrapy.crawler import CrawlerProcess
 import csv
-import requests
-from bs4 import BeautifulSoup
 from datetime import datetime
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 class JournalSpider(scrapy.Spider):
     name = "journal_spider"

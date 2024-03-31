@@ -9,6 +9,7 @@ python_files = ['AOS-JAE.py',
                  'RFS.py',
                  'TAR.py',
                  'wiley-JAR-CAR-TJF.py',
+                 'merge.py'
                 ]
 
 # 依次执行每个 py 文件

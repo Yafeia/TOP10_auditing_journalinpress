@@ -17,7 +17,7 @@ chrome_options.add_argument('--ignore-certificate-errors')  # 忽略证书错误
 
 # 使用Selenium打开网页
 driver = webdriver.Chrome(options=chrome_options)
-driver.get('https://pubsonline.informs.org/journal/mnsc')
+driver.get('https://pubsonline.informs.org/toc/mnsc/0/0')
 time.sleep(5)
 
 # 或者使用显式等待
@@ -48,12 +48,15 @@ for item in article_items:
             journal_link_element = item.find_element(By.XPATH, ".//a[@title='PDF']")  # 定位包含 PDF 链接的元素
             journal_link = journal_link_element.get_attribute("href")
 
+            # Abstract = item.find_element(By.XPATH,"")  # 定位包含 PDF 链接的元素
+
             journal_name = "MS"
             data.append({
                 'Title': title,
                 'Authors': authors_str if authors_str else None,
                 'Publication Date': pub_date,
                 'Journallink': journal_link,
+                # 'Abstract': Abstract,
                 'Journal': journal_name,
             })
 
